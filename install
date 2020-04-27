@@ -1,0 +1,64 @@
+###安装Arch##
+
+ #下载镜像#
+  https://archlinux.org
+ #下载u盘制作工具#
+  Etcher
+ #制作#
+ #重启电脑进入BIOS#
+ #联网#
+ wifi-menu
+ #使用cfdisk分区工具分区#
+  /boot	512M
+  /	400G
+  swap	3G
+ #格式化#
+ mkfs.fat -F32	/dev/sda1
+ mkfs.ext4	/dev/sda2
+ mkswap		/dev/sda3
+ #挂载#
+ mount /dev/sda2	/mnt
+ mkdir /mnt/boot
+ mount /dev/sda1	/mnt/boot
+ swapon			/dev/sda3
+ #设置下载源#
+ vim /etc/pacman.d/mirrors (/tuna)
+ #更新#
+ pacman -Syyu
+ #下载必要的包#
+ pacstrap /mnt base base-devel linux linux-firmware
+ #生成fstab#
+ genfstab -U /mnt >> /mnt/etc/fstab
+ #进入新系统#
+ arch-chroot /mnt
+ #设置时区#
+ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+ hwclock --systohc
+ #设置本地化#
+ vim /etc/locale.gen
+ locale-gen
+ vim /etclocale.conf  (LANG=en_US.UTF-8)
+ #下载#
+  vim sudo
+  NetworkManager broadcom-wl
+  alsa-utils
+  xf86-video-amdgpu
+  grub os-prober amd-ucode efibootmgr ntfs-3g
+ #安装引导#
+ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+ grub-mkconfig -o /boot/grub/grub.cfg
+ #更改密码#
+ passwd
+ #添加用户#
+ useradd -m -G wheel w
+ #更改密码#
+ passwd w
+ #授权#
+ vim /etc/sudoers
+ #退出#
+ exit
+ umount /mnt/boot
+ umount /mnt
+ #重启#
+ reboot
+

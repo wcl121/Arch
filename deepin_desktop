@@ -1,0 +1,37 @@
+# 安装深度桌面#
+
+#联网#
+ nmtui
+#安装x服务#
+ sudo pacman -S xorg
+#安装桌面管理器#
+ sudo pacman -S lightdm
+#设置开机启动#
+ sudo systemctl enable lightdm
+#安装桌面#
+ sudo pacman -S deepin deepin-extra
+#安装浏览器#
+ sudo pacman -S firefox firefox-i18n-zh-cn
+#安装中文输入法#
+ sudo pacman -S fcitx fcitx-im  fcitx-configtool fcitx-googlepinyin
+#安装中文字体#
+ sudo pacman -S wqy-microhei
+#设置输入法#
+ vim ~/.xprofile
+  export XMODIFIERS=@im=fcitx
+  export GTK_IM_MODULE=fcitx
+  export QT_IM_MODULE=fcitx
+#设置全局中文#
+ vim ~/.xprofile
+  export LANG=zh_CN.UTF-8
+#使用AUR#
+ git clone https://aur.archlinux.org/aurman.git
+ cd aurman/
+ makepkg -si
+ gpg --recv-keys xxxxxxxxxxxxxx
+ makepkg -si
+#安装wps#
+ aurman -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
+#安装网易与音乐#
+ aurman -S netease-cloud-music
+...
